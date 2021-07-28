@@ -1,0 +1,10 @@
+﻿* Referencias de proyecto afegir  MySql.Data.dll
+
+Instalar
+* mysql-connector-net-8.0.23
+* mysql-for-visualstudio-1.2.9
+Manualmente selecionar todo
+Crear DataModel 
+
+
+Instalar ADO.net for mysql https://dev.mysql.com/downloads/connector/net/

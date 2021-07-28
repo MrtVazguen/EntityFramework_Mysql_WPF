@@ -1,0 +1,126 @@
+﻿<Window x:Class="Exercici4._1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercici4._1" xmlns:wpfx="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="EntityFramework" Height="450" Width="950">
+
+    <Grid Background="Beige">
+        <!--
+        <DataGrid SelectionChanged="dtProductesLines_SelectionChanged" x:Name="dtProductesLines" HorizontalAlignment="Left" Height="334" Margin="40,37,0,0" VerticalAlignment="Top" Width="384">
+           <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=producteLine}"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Path=Prodectes}"/>
+           </DataGrid.Columns>
+        </DataGrid>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Background="LightCyan" Padding="5" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontSize="30" Foreground="Brown" VerticalAlignment="Center">Product list</TextBlock>
+
+        <DataGrid Name="dtProductesLines" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" SelectionChanged="dtProductesLines_SelectionChanged"   
+                       SelectionMode="Single"  IsReadOnly="True"   >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding ProductLine}"  />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TextDescription}" TextWrapping="WrapWithOverflow" Margin="10"  MaxWidth="350" />
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+
+        <DataGrid Margin="40,0,20,0" Name="dtProductes"   AutoGenerateColumns="False" Grid.Column="2" Grid.Row="1"   IsReadOnly="True" Visibility="Collapsed" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ProductCode" Binding="{Binding ProductCode}" />
+                <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" />
+                <DataGridTextColumn Header="Num Stock" Binding="{Binding QuantityInStock}" />
+                <DataGridTextColumn Header="ProductLine" Binding="{Binding ProductLine}" />
+                <DataGridTextColumn Header="Product Scale" Binding="{Binding ProductScale}" />
+                <DataGridTextColumn Header="ProuctVendor" Binding="{Binding ProductVendor}" />
+                <DataGridTextColumn Header="BuyPrice" Binding="{Binding Path=BuyPrice, StringFormat=C}" HeaderStringFormat="F" />
+                <DataGridTextColumn Header="MSRP" Binding="{Binding Msrp}" />
+                <DataGridTextColumn Header="ProductDescription" Binding="{Binding ProductDescription}" MaxWidth="210" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+
+
+        </DataGrid>
+        <Viewbox Grid.Column="2">
+            <StackPanel  Orientation="Horizontal">
+
+                <TextBlock Background="LightCyan"  Padding="5" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" FontSize="25" Margin="40,0,10,0" Foreground="Brown" VerticalAlignment="Center">Products</TextBlock>
+                <CheckBox VerticalAlignment="Center" FontSize="20" Name="ckbFiltrar" Checked="ckbFiltrar_Checked" Unchecked="ckbFiltrar_Unchecked"  IsEnabled="True" >Filtrar</CheckBox>
+                <TextBox Width="100" MaxWidth="120" VerticalAlignment="Center" Margin="15,5,5,5" FontSize="20" TextWrapping="Wrap" Name="tbxFiltrarPerNom"    >
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="CERCA" Foreground="Black" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <StackPanel VerticalAlignment="Center">
+                    <CheckBox x:Name="cbxFiltarNom">Nom</CheckBox>
+                    <CheckBox x:Name="cbxFiltarDescripcion">Descripcion</CheckBox>
+                </StackPanel>
+                <TextBlock VerticalAlignment="Center" Margin="20,0,5,0">Num stock:</TextBlock>
+                <wpfx:IntegerUpDown x:Name="integerUpDouwnFiltrarStock" ValueChanged="integerUpDouwnFiltrarStock_ValueChanged"   Height="30" Minimum="0" Increment="10" Value="0" FormatString="F" >
+                    <wpfx:IntegerUpDown.Watermark>
+                        <TextBlock Text="Num stock"  Margin="0,0,60,0"/>
+                    </wpfx:IntegerUpDown.Watermark>
+                </wpfx:IntegerUpDown>
+                <StackPanel VerticalAlignment="Center" Background="Azure" Margin="5,0,0,0" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
+                    <CheckBox x:Name="rbOver"  VerticalAlignment="Center" Checked="rbOver_Checked" Unchecked="rbOver_Unchecked">↑</CheckBox>
+                    <CheckBox x:Name="rbUnder" Margin="5,0,5,0"  VerticalAlignment="Center" Checked="rbUnder_Checked" Unchecked="rbUnder_Unchecked">↓</CheckBox>
+                    <TextBlock Background="Cyan" Width="50"   FontSize="15" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="tbTextFiltrarCantidad"  Text="Ɵ"/>
+                </StackPanel>
+            </StackPanel>
+        </Viewbox>
+
+        <Viewbox  Grid.Column="3"  Margin="5,0,0,0">
+            <Button  Background="LightBlue" Name="btnFiltrar" Click="btnFiltrar_Click" Height="36" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="108" Margin="0,3,5,0">Filtrar</Button>
+        </Viewbox>
+        <Viewbox  Grid.Column="3" Grid.Row="1">
+            <StackPanel>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="0,0,5,0">
+                    <Button x:Name="btnDonarAlta" Height="40" Margin="0,10,0,5" Background="Green" Foreground="White" FontSize="20" Click="btnDonarAlta_Click">Donar Alta</Button>
+                    <Button x:Name="btnModificar" Height="40" Margin="0,5,0,5" Background="Brown" Foreground="White" FontSize="15" Click="btnModificar_Click">Modificar</Button>
+                    <Button x:Name="btnEliminar" Height="40" Margin="0,5,0,5" Background="Red" Foreground="White" FontSize="20" Click="btnEliminar_Click">Eliminar</Button>
+                </StackPanel>
+
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Window>
